@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import { TProduct } from "./product.interface";
 import { Product } from "./product.model";
 
@@ -13,6 +12,21 @@ const getAllProducts = async () => {
   const result = await Product.find();
   return result;
 };
+// get all those products based on search query match
+const getProductsBySearch = async (searchTerm: string) => {
+  const result = await Product.find({
+    $or: [
+      { name: { $regex: new RegExp(searchTerm, "i") } },
+      { description: { $regex: new RegExp(searchTerm, "i") } },
+      { category: { $regex: new RegExp(searchTerm, "i") } },
+      { tags: { $regex: new RegExp(searchTerm, "i") } },
+    ],
+  })
+    .populate("variants")
+    .populate("inventory");
+
+  return result;
+};
 
 // Get single product based on id
 
@@ -23,9 +37,14 @@ const getSingleProductById = async (id: string) => {
   return result;
 };
 
+// update a product
+
+// delete single product based on id
+
 // export all the services
 export const ProductServices = {
   createProduct,
   getAllProducts,
   getSingleProductById,
+  getProductsBySearch,
 };

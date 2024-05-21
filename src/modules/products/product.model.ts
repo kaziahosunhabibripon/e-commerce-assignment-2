@@ -31,10 +31,12 @@ const productSchema = new Schema<TProduct>({
   name: {
     type: String,
     required: [true, "Product name is required"],
+    trim: true,
   },
   description: {
     type: String,
     required: [true, "Product description is required"],
+    trim: true,
   },
   price: {
     type: Number,
@@ -46,12 +48,15 @@ const productSchema = new Schema<TProduct>({
   },
   tags: {
     type: [String],
+    required: [true, "Tags must be provided "],
   },
   variants: {
     type: [variantSchema],
+    required: [true, "Product variants are required"],
   },
   inventory: {
     type: inventorySchema,
+    requiredPaths: ["quantity", "inStock"],
   },
 });
 
