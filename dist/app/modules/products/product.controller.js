@@ -39,10 +39,8 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const searchTerm = req.query.searchTerm;
-        let result;
+        const result = yield product_service_1.ProductServices.getAllProducts(searchTerm);
         if (searchTerm) {
-            // If search term is provided, search for products
-            result = yield product_service_1.ProductServices.getProductsBySearch(searchTerm);
             res.status(200).json({
                 success: true,
                 message: `Products matching search term ${searchTerm} fetched successfully!`,
@@ -50,8 +48,6 @@ const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function*
             });
         }
         else {
-            // If no search term is provided, fetch all products
-            result = yield product_service_1.ProductServices.getAllProducts();
             res.status(200).json({
                 success: true,
                 message: "All products fetched successfully!",

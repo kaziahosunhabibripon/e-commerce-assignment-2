@@ -16,21 +16,20 @@ const createProduct = (payload) => __awaiter(void 0, void 0, void 0, function* (
     const result = yield product_model_1.Product.create(payload);
     return result;
 });
-// get all products
-const getAllProducts = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield product_model_1.Product.find();
-    return result;
-});
-// get all those products based on search query match
-const getProductsBySearch = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield product_model_1.Product.find({
-        $or: [
-            { name: { $regex: new RegExp(searchTerm, "i") } },
-            { description: { $regex: new RegExp(searchTerm, "i") } },
-            { category: { $regex: new RegExp(searchTerm, "i") } },
-            { tags: { $regex: new RegExp(searchTerm, "i") } },
-        ],
-    })
+// get all products and get all those products based on search query match
+const getAllProducts = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
+    let query = {};
+    if (searchTerm) {
+        query = {
+            $or: [
+                { name: { $regex: new RegExp(searchTerm, "i") } },
+                { description: { $regex: new RegExp(searchTerm, "i") } },
+                { category: { $regex: new RegExp(searchTerm, "i") } },
+                { tags: { $regex: new RegExp(searchTerm, "i") } },
+            ],
+        };
+    }
+    const result = yield product_model_1.Product.find(query)
         .populate("variants")
         .populate("inventory");
     return result;
@@ -63,7 +62,6 @@ exports.ProductServices = {
     createProduct,
     getAllProducts,
     getSingleProductById,
-    getProductsBySearch,
     updateSingleProductById,
     deleteSingleProductById,
 };

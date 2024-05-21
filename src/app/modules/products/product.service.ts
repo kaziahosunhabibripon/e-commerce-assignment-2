@@ -8,7 +8,7 @@ const createProduct = async (payload: TProduct) => {
 };
 
 // get all products and get all those products based on search query match
-const getAllProducts = async (searchTerm: string | undefined | null) => {
+const getAllProducts = async (searchTerm: string | undefined) => {
   let query = {};
 
   if (searchTerm) {

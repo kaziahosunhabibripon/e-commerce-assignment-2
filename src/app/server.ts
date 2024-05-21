@@ -4,9 +4,9 @@ import config from "./config";
 
 async function main() {
   try {
-    await mongoose.connect(config.db_uri as string).then(() => {
-      console.log("Database connected successfully !");
-    });
+    await mongoose.connect(config.db_uri as string);
+    console.log("Database connected successfully !");
+
     app.listen(config.port, () => {
       console.log(
         `Server is connected on port http://localhost:${config.port}`
@@ -14,6 +14,7 @@ async function main() {
     });
   } catch (err: any) {
     console.error("Failed to connect to the database:", err);
+    process.exit(1);
   }
 }
 
