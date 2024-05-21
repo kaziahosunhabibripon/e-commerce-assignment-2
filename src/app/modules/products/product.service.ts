@@ -7,23 +7,25 @@ const createProduct = async (payload: TProduct) => {
   return result;
 };
 
-// get all products
-const getAllProducts = async () => {
-  const result = await Product.find();
-  return result;
-};
-// get all those products based on search query match
-const getProductsBySearch = async (searchTerm: string) => {
-  const result = await Product.find({
-    $or: [
-      { name: { $regex: new RegExp(searchTerm, "i") } },
-      { description: { $regex: new RegExp(searchTerm, "i") } },
-      { category: { $regex: new RegExp(searchTerm, "i") } },
-      { tags: { $regex: new RegExp(searchTerm, "i") } },
-    ],
-  })
+// get all products and get all those products based on search query match
+const getAllProducts = async (searchTerm: string | undefined | null) => {
+  let query = {};
+
+  if (searchTerm) {
+    query = {
+      $or: [
+        { name: { $regex: new RegExp(searchTerm, "i") } },
+        { description: { $regex: new RegExp(searchTerm, "i") } },
+        { category: { $regex: new RegExp(searchTerm, "i") } },
+        { tags: { $regex: new RegExp(searchTerm, "i") } },
+      ],
+    };
+  }
+
+  const result = await Product.find(query)
     .populate("variants")
     .populate("inventory");
+
   return result;
 };
 
@@ -65,7 +67,6 @@ export const ProductServices = {
   createProduct,
   getAllProducts,
   getSingleProductById,
-  getProductsBySearch,
   updateSingleProductById,
   deleteSingleProductById,
 };
