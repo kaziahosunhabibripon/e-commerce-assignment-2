@@ -22,7 +22,25 @@ const createOrder = async (req: Request, res: Response) => {
   }
 };
 // Get All Order Data
+const getAllOrders = async (req: Request, res: Response) => {
+  try {
+    const { query } = req.query;
+    const result = await OrderServices.getAllOrders(query as string);
+    res.status(200).json({
+      success: true,
+      message: "Orders fetched successfully for user email!",
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error || "Order Not Found!",
+      error: error.message,
+    });
+  }
+};
 //
 export const OrderController = {
   createOrder,
+  getAllOrders,
 };
