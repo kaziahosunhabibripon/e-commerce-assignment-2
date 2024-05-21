@@ -24,7 +24,6 @@ const getProductsBySearch = async (searchTerm: string) => {
   })
     .populate("variants")
     .populate("inventory");
-
   return result;
 };
 
@@ -39,7 +38,27 @@ const getSingleProductById = async (id: string) => {
 
 // update a product
 
+const updateSingleProductById = async (id: string, payload: TProduct) => {
+  const result = await Product.findByIdAndUpdate(
+    {
+      _id: id,
+    },
+    payload,
+    {
+      new: true,
+    }
+  );
+  return result;
+};
+
 // delete single product based on id
+
+const deleteSingleProductById = async (id: string) => {
+  const result = await Product.findByIdAndDelete({
+    _id: id,
+  });
+  return result;
+};
 
 // export all the services
 export const ProductServices = {
@@ -47,4 +66,6 @@ export const ProductServices = {
   getAllProducts,
   getSingleProductById,
   getProductsBySearch,
+  updateSingleProductById,
+  deleteSingleProductById,
 };

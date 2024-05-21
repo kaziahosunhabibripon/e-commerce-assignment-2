@@ -32,6 +32,7 @@ const productSchema = new Schema<TProduct>({
     type: String,
     required: [true, "Product name is required"],
     trim: true,
+    unique: true,
   },
   description: {
     type: String,
@@ -56,7 +57,6 @@ const productSchema = new Schema<TProduct>({
   },
   inventory: {
     type: inventorySchema,
-    requiredPaths: ["quantity", "inStock"],
   },
 });
 
