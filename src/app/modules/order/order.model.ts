@@ -21,14 +21,40 @@ const orderSchema = new Schema<TOrder>({
     required: [true, "Product ID is required"],
   },
 });
-// Pre save middleware for check productId is valid or not
+
+// Post save middleware for check product quantity is sufficient or not
 orderSchema.pre<TOrder>("save", async function (next: NextFunction) {
   const order = this as TOrder;
-
-  const productExists = await Product.exists({ _id: order.productId });
-  if (!productExists) {
-    throw new Error("Invalid Product ID");
+  const product = await Product.findById({ _id: order.productId });
+  if (!product) {
+    throw new Error("Product not found");
   }
+  let { inventory } = product;
+
+  if (typeof inventory.quantity !== "number") {
+    throw new Error("Invalid inventory value");
+  }
+  if (typeof inventory.inStock !== "number") {
+    throw new Error("Invalid inventory value");
+  }
+  if (inventory.quantity < order.quantity) {
+    throw new Error("Insufficient inventory");
+  }
+
+  // Calculate the new inventory after fulfilling the order
+  const newInventory = inventory.quantity - order.quantity;
+
+  // Update the product's inventory in the database
+  await Product.updateOne(
+    { _id: order.productId },
+    {
+      $set: { "inventory.quantity": newInventory },
+      "inventory.inStock": newInventory > 0,
+    }
+  );
+
+  console.log("Product inventory updated:", newInventory);
+
   next();
 });
 

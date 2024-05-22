@@ -6,6 +6,7 @@ import { OrderServices } from "./order.service";
 const createOrder = async (req: Request, res: Response) => {
   try {
     const orderData = req.body;
+
     const orderValidationData = orderSchema.parse(orderData);
     const result = await OrderServices.createOrder(orderValidationData);
     res.status(201).json({
