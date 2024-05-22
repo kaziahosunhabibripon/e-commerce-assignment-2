@@ -45,7 +45,9 @@ orderSchema.pre<TOrder>("save", async function (next: NextFunction) {
       }
     );
 
-    throw new Error("Insufficient quantity available in inventory");
+    throw new Error(
+      `Insufficient quantity available in inventory for product ${product.name}`
+    );
   }
 
   // Calculate the new inventory after fulfilling the order
