@@ -1,7 +1,8 @@
 import express, { Errback, NextFunction, Request, Response } from "express";
-import { ProductRoutes } from "./modules/products/product.route";
-import { OrderRoutes } from "./modules/order/order.route";
+
 import cors from "cors";
+import { ProductRoutes } from "./app/modules/products/product.route";
+import { OrderRoutes } from "./app/modules/order/order.route";
 // Application level middleware
 const app = express();
 app.use(express.json());

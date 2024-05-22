@@ -28,7 +28,7 @@ orderSchema.pre<TOrder>("save", async function (next) {
   if (!product) {
     throw new Error("Product not found");
   }
-  let { inventory } = product;
+  const { inventory } = product;
 
   if (typeof inventory.quantity !== "number") {
     throw new Error("Invalid inventory value");
@@ -60,8 +60,6 @@ orderSchema.pre<TOrder>("save", async function (next) {
       "inventory.inStock": newInventory > 0,
     }
   );
-
-  console.log("Product inventory updated:", newInventory);
 
   next();
 });

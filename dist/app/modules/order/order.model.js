@@ -37,7 +37,7 @@ orderSchema.pre("save", function (next) {
         if (!product) {
             throw new Error("Product not found");
         }
-        let { inventory } = product;
+        const { inventory } = product;
         if (typeof inventory.quantity !== "number") {
             throw new Error("Invalid inventory value");
         }
@@ -56,7 +56,6 @@ orderSchema.pre("save", function (next) {
             $set: { "inventory.quantity": newInventory },
             "inventory.inStock": newInventory > 0,
         });
-        console.log("Product inventory updated:", newInventory);
         next();
     });
 });
