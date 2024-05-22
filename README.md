@@ -22,32 +22,35 @@ To install and run this project locally, follow these steps:
    Or download the ZIP file and extract it.
    ```
 
-Navigate to the project directory:
+# Navigate to the project directory:
 
-bash
-Copy code
-cd project_name
-Install dependencies:
+    ```bash
+    cd dist or src
+    ```
 
-bash
-Copy code
-npm install
-Configuration
+# Install dependencies:
+
+    ```bash
+    npm install
+    ```
+
+# Configuration
+
 Before running the project, ensure you configure the necessary environment variables. You can find the sample configuration file at .env.example. Rename it to .env and update the values as needed.
 
-Usage
+# Usage
+
 To run the project in development mode, use the following command:
 
-bash
-Copy code
-npm run dev
+```bash
+  npm run dev
+```
+
 This command will start the TypeScript compiler in watch mode and run the server using nodemon, which will automatically restart the server when changes are detected.
 
 Linting
 This project uses ESLint for code linting. To lint the code, run:
 
-bash
-Copy code
-npm run lint
-Contributing
-Contributions are welcome! If you'd like to contribute to this project, feel free to fork the repository and submit a pull request with your changes.
+```bash
+  npm run lint
+```
