@@ -1,6 +1,6 @@
-import { get } from "http";
 import { TOrder } from "./order.interface";
-import { Order } from "./order.model";
+import Order from "./order.model";
+
 // create a new order service
 const createOrder = async (payload: TOrder) => {
   const result = await Order.create(payload);

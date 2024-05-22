@@ -9,6 +9,7 @@ const orderSchema = z.object({
     .number()
     .int("Quantity must be an integer")
     .min(1, "Quantity is required"),
+  productId: z.string().min(1, "Product ID is required"),
 });
 
 export default orderSchema;

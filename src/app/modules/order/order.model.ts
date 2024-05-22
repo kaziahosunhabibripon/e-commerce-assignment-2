@@ -1,5 +1,7 @@
 import { Schema, model } from "mongoose";
 import { TOrder } from "./order.interface";
+import { NextFunction } from "express";
+import { Product } from "../products/product.model";
 
 const orderSchema = new Schema<TOrder>({
   email: {
@@ -14,6 +16,22 @@ const orderSchema = new Schema<TOrder>({
     type: Number,
     required: [true, "Quantity is required"],
   },
+  productId: {
+    type: String,
+    required: [true, "Product ID is required"],
+  },
+});
+// Pre save middleware for check productId is valid or not
+orderSchema.pre<TOrder>("save", async function (next: NextFunction) {
+  const order = this as TOrder;
+
+  const productExists = await Product.exists({ _id: order.productId });
+  if (!productExists) {
+    throw new Error("Invalid Product ID");
+  }
+  next();
 });
 
-export const Order = model<TOrder>("Order", orderSchema);
+const Order = model<TOrder>("Order", orderSchema);
+
+export default Order;
