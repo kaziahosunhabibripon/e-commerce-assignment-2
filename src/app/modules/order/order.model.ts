@@ -1,6 +1,5 @@
 import { Schema, model } from "mongoose";
 import { TOrder } from "./order.interface";
-import { NextFunction } from "express";
 import { Product } from "../products/product.model";
 
 const orderSchema = new Schema<TOrder>({
@@ -23,7 +22,7 @@ const orderSchema = new Schema<TOrder>({
 });
 
 // Post save middleware for check product quantity is sufficient or not
-orderSchema.pre<TOrder>("save", async function (next: NextFunction) {
+orderSchema.pre<TOrder>("save", async function (next) {
   const order = this as TOrder;
   const product = await Product.findById({ _id: order.productId });
   if (!product) {

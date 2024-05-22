@@ -18,15 +18,15 @@ const config_1 = __importDefault(require("./config"));
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            yield mongoose_1.default.connect(config_1.default.db_uri).then(() => {
-                console.log("Database connected successfully !");
-            });
+            yield mongoose_1.default.connect(config_1.default.db_uri);
+            console.log("Database connected successfully !");
             app_1.default.listen(config_1.default.port, () => {
                 console.log(`Server is connected on port http://localhost:${config_1.default.port}`);
             });
         }
         catch (err) {
             console.error("Failed to connect to the database:", err);
+            process.exit(1);
         }
     });
 }
