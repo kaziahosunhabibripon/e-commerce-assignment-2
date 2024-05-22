@@ -34,11 +34,18 @@ orderSchema.pre<TOrder>("save", async function (next: NextFunction) {
   if (typeof inventory.quantity !== "number") {
     throw new Error("Invalid inventory value");
   }
-  if (typeof inventory.inStock !== "number") {
-    throw new Error("Invalid inventory value");
-  }
+
   if (inventory.quantity < order.quantity) {
-    throw new Error("Insufficient inventory");
+    product.inventory.inStock = false;
+    // Update the product's inventory in the database
+    await Product.updateOne(
+      { _id: order.productId },
+      {
+        $set: { "inventory.inStock": false },
+      }
+    );
+
+    throw new Error("Insufficient quantity available in inventory");
   }
 
   // Calculate the new inventory after fulfilling the order
