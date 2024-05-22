@@ -9,8 +9,11 @@ const createOrder = async (payload: TOrder) => {
 
 // get all order service
 
-const getAllOrders = async (email: string) => {
+const getAllOrders = async (email: string | null) => {
   let query = {};
+  if (typeof email === "string") {
+    query = { email: email };
+  }
   const result = await Order.find(query);
   return result;
 };

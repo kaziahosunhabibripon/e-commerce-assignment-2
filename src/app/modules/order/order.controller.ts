@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import orderSchema from "./order.validation";
 import { OrderServices } from "./order.service";
+import { unknown } from "zod";
 
 // create a new order controller
 const createOrder = async (req: Request, res: Response) => {
@@ -24,13 +25,22 @@ const createOrder = async (req: Request, res: Response) => {
 // Get All Order Data
 const getAllOrders = async (req: Request, res: Response) => {
   try {
-    const { query } = req.query;
-    const result = await OrderServices.getAllOrders(query as string);
-    res.status(200).json({
-      success: true,
-      message: "Orders fetched successfully for user email!",
-      data: result,
-    });
+    if (typeof req.query.email === "string") {
+      const email = req.query.email;
+      const result = await OrderServices.getAllOrders(email);
+      res.status(200).json({
+        success: true,
+        message: "Orders fetched successfully for user email!",
+        data: result,
+      });
+    } else {
+      const result = await OrderServices.getAllOrders(null);
+      res.status(200).json({
+        success: true,
+        message: "Orders fetched successfully!",
+        data: result,
+      });
+    }
   } catch (error: any) {
     res.status(500).json({
       success: false,
