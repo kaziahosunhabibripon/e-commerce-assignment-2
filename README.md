@@ -17,22 +17,22 @@ To install and run this project locally, follow these steps:
 
 1. Clone the repository:
 
-   ```bash
-   git clone https://github.com/kaziahosunhabibripon/e-commerce-assignment-2
-   Or download the ZIP file and extract it.
-   ```
+```bash
+git clone https://github.com/kaziahosunhabibripon/e-commerce-assignment-2
+Or download the ZIP file and extract it.
+```
 
 # Navigate to the project directory:
 
-    ```bash
-    cd dist or src
-    ```
+```bash
+cd dist or src
+```
 
 # Install dependencies:
 
-    ```bash
-    npm install
-    ```
+```bash
+npm install
+```
 
 # Configuration
 
